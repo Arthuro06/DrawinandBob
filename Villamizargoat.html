@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Arthur Villamizar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Porcha&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+
+<h1>Arthur Villamizar</h1>
+
+<div class="card">
+  <p class="bold">UI/UX designer #GOAT</p>
+</div>
+
+<div class="card">
+  <p>Je suis un créatif curieux, passionné par le design et l'interaction. Bienvenue dans mon univers !</p>
+</div>
+
+<p><strong>Appuie sur espace pour faire sauter Bob l'Éponge !</strong></p>
+
+<div id="game">
+  <div id="avatar"></div>
+</div>
+
+<div id="message"></div>
+
+<div class="quote">
+  <p>« Ce ne sont pas les espèces les plus fortes qui survivent, ni les plus intelligentes, mais celles qui s’adaptent le mieux au changement. »<br>— Charles Darwin</p>
+</div>
+
+<script>
+  const avatar = document.getElementById('avatar');
+  const game = document.getElementById('game');
+  const message = document.getElementById('message');
+
+  document.addEventListener("keydown", function(e) {
+    if (e.code === "Space") {
+      if (!avatar.classList.contains("jump")) {
+        avatar.classList.add("jump");
+        setTimeout(() => {
+          avatar.classList.remove("jump");
+        }, 600);
+      }
+    }
+  });
+
+  function createObstacle() {
+    const obstacle = document.createElement("div");
+    obstacle.classList.add("obstacle");
+    game.appendChild(obstacle);
+
+    const interval = setInterval(() => {
+      const avatarRect = avatar.getBoundingClientRect();
+      const obsRect = obstacle.getBoundingClientRect();
+
+      if (
+        obsRect.left < avatarRect.right &&
+        obsRect.right > avatarRect.left &&
+        obsRect.bottom > avatarRect.bottom - 10 &&
+        obsRect.top < avatarRect.bottom
+      ) {
+        message.textContent = "💀 Game Over ! Recharge la page pour rejouer.";
+        game.innerHTML = '';
+        clearInterval(interval);
+      }
+    }, 10);
+
+    obstacle.addEventListener("animationend", () => {
+      obstacle.remove();
+    });
+  }
+
+  setInterval(createObstacle, 2200);
+</script>
+<audio autoplay loop>
+</body>
+</html>
